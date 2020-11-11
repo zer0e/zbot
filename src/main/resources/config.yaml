@@ -1,0 +1,6 @@
+mirai_http_api:
+  host: localhost
+  port: 23333
+  authKey: INITKEY5SjjHI3m
+  bot_qq: 3037633599
+plugins: [TestPlugin]
