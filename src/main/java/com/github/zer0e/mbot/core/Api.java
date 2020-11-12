@@ -76,6 +76,7 @@ public class Api {
 
 
     public boolean send_plain_msg_to_group(String group, String text){
+        text = text.replace("\"","\\\"");
         String data = "{" +
                 "\"sessionKey\": \"" + session + "\",\n" +
                 "\"target\": " + group + ",\n" +
