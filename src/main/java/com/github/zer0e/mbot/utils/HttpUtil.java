@@ -26,7 +26,7 @@ public class HttpUtil {
         JSONObject obj = null;
         try {
             Response response = call.execute();
-            obj = JSON.parseObject(response.body().toString());
+            obj = JSON.parseObject(response.body().string());
             error_time = 0;
         }catch (Exception e){
             e.printStackTrace();
