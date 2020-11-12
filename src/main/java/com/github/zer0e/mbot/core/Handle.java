@@ -105,12 +105,4 @@ public class Handle {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        String s = "{\"type\":\"GroupMessage\",\"messageChain\":[{\"type\":\"Source\",\"id\":9421,\"time\":1604910911},{\"type\":\"Plain\",\"text\":\"555\"}],\"sender\":{\"id\":810464986,\"memberName\":\"你已经是女装大佬了，快来和大家打声招呼\",\"permission\":\"OWNER\",\"group\":{\"id\":524363786,\"name\":\"继续1\",\"permission\":\"MEMBER\"}}}";
-        JSONObject jsonObject = JSONObject.parseObject(s);
-        LinkedBlockingQueue<JSONObject> queue = new LinkedBlockingQueue<>();
-        queue.offer(jsonObject);
-        Handle handle = new Handle(null,queue);
-        handle.start();
-    }
 }

@@ -58,14 +58,4 @@ public class Receiver extends WebSocketClient {
         return true;
     }
 
-    public static void main(String[] args){
-        LinkedBlockingDeque<JSONObject> queue = new LinkedBlockingDeque<>();
-        try {
-            Receiver receiver = new Receiver(new URI("ws://127.0.0.1:23333/message?sessionKey=gnxK62Pv"), queue);
-            receiver.connect();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
 }
