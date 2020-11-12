@@ -1,5 +1,6 @@
 package com.github.zer0e.mbot.core;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.zer0e.mbot.config.Config;
 import com.github.zer0e.mbot.utils.ConfigUtil;
@@ -8,6 +9,9 @@ import lombok.Data;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class Api {
@@ -27,7 +31,7 @@ public class Api {
     @Getter private static final String ws_get_msg_url = "/message?sessionKey=";
     private static final String send_group_msg_url = "/sendGroupMessage";
     private static final String send_friend_msg_url = "/sendFriendMessage";
-    private static final String get_group_list_url = "/groupList?sessionKey={0}";
+    private static final String get_group_list_url = "/groupList?sessionKey=";
     private static final String get_member_list_url = "/memberList?sessionKey={0}&target={1}";
     private static final Logger logger = LoggerFactory.getLogger(Api.class);
 
@@ -94,10 +98,25 @@ public class Api {
 
     }
 
+    public List<String> get_group_list(){
+        List<String> res = new ArrayList<>();
+        String url = base_url + get_group_list_url + get_session();
+        String result = HttpUtil.get_with_string(url);
+        if (result == null){
+            return res;
+        }
+        JSONArray jsonArray = JSONArray.parseArray(result);
+        for (int i = 0; i < jsonArray.size(); i++){
+            JSONObject obj = JSONObject.parseObject(jsonArray.get(i).toString());
+            res.add(obj.getString("id"));
+        }
+        logger.debug("获取群组：" + res.toString());
+        return res;
+    }
+
 
     public static void main(String[] args) {
-        String session = "TgNfYLCj";
         Api api = new Api();
-        api.send_plain_msg_to_group("524363786", "hello world");
+        api.get_group_list();
     }
 }
