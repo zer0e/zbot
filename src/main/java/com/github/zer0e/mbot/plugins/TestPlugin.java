@@ -7,6 +7,7 @@ import com.github.zer0e.mbot.model.Msg;
 
 public class TestPlugin extends BasePlugin{
     public TestPlugin() {
+        // 初始化
         init();
     }
 
