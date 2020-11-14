@@ -5,11 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.zer0e.mbot.config.Config;
 import com.github.zer0e.mbot.utils.ConfigUtil;
 import com.github.zer0e.mbot.utils.HttpUtil;
-import lombok.Data;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,9 +114,24 @@ public class Api {
         return res;
     }
 
+    public List<String> get_group_member(String group){
+        String url = MessageFormat.format(base_url + get_member_list_url,get_session(),group);
+        String result = HttpUtil.get_with_string(url);
+        if (result == null){
+            return null;
+        }
+        JSONArray array = JSONArray.parseArray(result);
+        List<String> res = new ArrayList<> ();
+        for (int i = 0; i < array.size(); i++){
+            res.add(array.get(i).toString());
+        }
+        logger.debug("获取成员列表：" + res.toString());
+        return res;
+    }
+
 
     public static void main(String[] args) {
         Api api = new Api();
-        api.get_group_list();
+        api.get_group_member("1234");
     }
 }
