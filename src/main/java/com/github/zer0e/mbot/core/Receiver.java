@@ -18,7 +18,6 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 public class Receiver extends WebSocketClient {
     private Queue<JSONObject> exchange;
-    private Api api;
     private static Logger logger = LoggerFactory.getLogger(Receiver.class);
     public Receiver(URI serverUri, Queue<JSONObject> exchange) {
         super(serverUri);
