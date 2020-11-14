@@ -12,9 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.*;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 @Data
 public class Handle {
@@ -22,6 +20,7 @@ public class Handle {
     private LinkedBlockingQueue<JSONObject> exchange;
     private volatile boolean stop = false;
     private static Logger logger = LoggerFactory.getLogger(Handle.class);
+    private static ExecutorService executorService = Executors.newCachedThreadPool();
 
     public Handle(Registry registry, @NonNull LinkedBlockingQueue<JSONObject> exchange) {
         this.registry = registry;
@@ -100,7 +99,9 @@ public class Handle {
         while (!stop){
             JSONObject msg = this.exchange.poll(60*60*24, TimeUnit.SECONDS);
             if (msg != null){
-                handle_msg(msg);
+                executorService.execute(() -> {
+                    handle_msg(msg);
+                });
             }
         }
     }
