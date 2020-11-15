@@ -31,6 +31,7 @@ public class Api {
     @Getter private static final String ws_get_msg_url = "/message?sessionKey=";
     private static final String send_group_msg_url = "/sendGroupMessage";
     private static final String send_friend_msg_url = "/sendFriendMessage";
+    private static final String send_temp_msg_url = "/sendTempMessage";
     private static final String get_group_list_url = "/groupList?sessionKey=";
     private static final String get_member_list_url = "/memberList?sessionKey={0}&target={1}";
     private static final Logger logger = LoggerFactory.getLogger(Api.class);
@@ -79,23 +80,47 @@ public class Api {
     }
 
 
-    public boolean send_plain_msg_to_group(String group, String text){
+    public boolean send_plain_msg_to_group(String group_id, String text){
+        return send_plain_msg_to_friend_or_group(send_group_msg_url,group_id, text);
+    }
+
+    public boolean send_plain_msg_to_friend(String friend_id, String text){
+        return send_plain_msg_to_friend_or_group(send_friend_msg_url, friend_id, text);
+    }
+
+    private boolean send_plain_msg_to_friend_or_group(String query_url, String target_id, String text) {
         text = text.replace("\"","\\\"");
         String data = "{" +
                 "\"sessionKey\": \"" + session + "\",\n" +
-                "\"target\": " + group + ",\n" +
+                "\"target\": " + target_id + ",\n" +
                 "\"messageChain\": [\n" +
                 "        { \"type\": \"Plain\", \"text\": \"" + text + "\"}" +
                 "]}";
-        String url = base_url + send_group_msg_url;
-
+        String url = base_url + query_url;
         JSONObject res = HttpUtil.post(url, data);
         if (res != null && (int)res.get("code") == 0){
             return true;
         }else{
             return false;
         }
+    }
 
+    public boolean send_plain_msg_to_tmp_friend(String group_id, String friend_id, String text){
+        text = text.replace("\"","\\\"");
+        String data = "{" +
+                "\"sessionKey\": \"" + session + "\",\n" +
+                "\"qq\": " + friend_id + ",\n" +
+                "\"group\": " + group_id + ",\n" +
+                "\"messageChain\": [\n" +
+                "        { \"type\": \"Plain\", \"text\": \"" + text + "\"}" +
+                "]}";
+        String url = base_url + send_temp_msg_url;
+        JSONObject res = HttpUtil.post(url, data);
+        if (res != null && (int)res.get("code") == 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public List<String> get_group_list(){
@@ -128,6 +153,7 @@ public class Api {
         logger.debug("获取成员列表：" + res.toString());
         return res;
     }
+
 
 
     public static void main(String[] args) {

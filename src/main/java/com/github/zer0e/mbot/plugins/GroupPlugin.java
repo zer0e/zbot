@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Getter
-public abstract class BasePlugin {
+public abstract class GroupPlugin {
     protected Set<String> words = new HashSet<>();
     protected Set<String> groups = new HashSet<>();
     protected String description;
