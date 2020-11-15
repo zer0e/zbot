@@ -1,10 +1,31 @@
 package com.github.zer0e.mbot.utils;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class ReflectionUtils {
+	/**
+	 * 根据对象和变量名获取属性
+	 *
+	 * */
+	public static Object getField(Object object, String field_name){
+		Object result = null;
+		Class<? extends Object> clazz = object.getClass();
+		try {
+			Field field = clazz.getField(field_name);
+			field.setAccessible(true);
+			result = field.get(object);
+		}catch (NoSuchFieldException | IllegalAccessException e){
+			try{
+				throw new NoSuchFieldException(clazz.getName() + " 类中没有找到 " + field_name + " 变量。");
+			}catch (NoSuchFieldException e2){
+				e2.printStackTrace();
+			}
+		}
+		return result;
 
+	}
 	
 	/**
 	 * 根据方法名调用指定对象的方法
