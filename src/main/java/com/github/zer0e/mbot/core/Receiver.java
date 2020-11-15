@@ -19,6 +19,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class Receiver extends WebSocketClient {
     private Queue<JSONObject> exchange;
     private static Logger logger = LoggerFactory.getLogger(Receiver.class);
+    public volatile boolean is_close = false;
     public Receiver(URI serverUri, Queue<JSONObject> exchange) {
         super(serverUri);
         this.exchange = exchange;
@@ -36,6 +37,7 @@ public class Receiver extends WebSocketClient {
     }
 
     public void onClose(int i, String s, boolean b) {
+        is_close = true;
         logger.info("关闭连接");
     }
 
