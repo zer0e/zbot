@@ -5,10 +5,7 @@ import com.github.zer0e.mbot.core.Api;
 import com.github.zer0e.mbot.msg.FriendMsg;
 import com.github.zer0e.mbot.msg.GroupMsg;
 import com.github.zer0e.mbot.msg.TempMsg;
-import lombok.Getter;
 
-// 需要getter
-@Getter
 public class TestPlugin implements GroupPlugin,FriendPlugin{
     private Api api;
     public TestPlugin() {
