@@ -1,4 +1,4 @@
-package com.github.zer0e.mbot.model;
+package com.github.zer0e.mbot.msg;
 
 import lombok.Data;
 
