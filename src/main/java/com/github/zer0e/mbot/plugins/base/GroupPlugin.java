@@ -1,4 +1,4 @@
-package com.github.zer0e.mbot.plugins;
+package com.github.zer0e.mbot.plugins.base;
 
 import com.github.zer0e.mbot.msg.GroupMsg;
 

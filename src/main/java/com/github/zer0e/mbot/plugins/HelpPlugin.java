@@ -5,15 +5,18 @@ import com.github.zer0e.mbot.core.Registry;
 import com.github.zer0e.mbot.msg.FriendMsg;
 import com.github.zer0e.mbot.msg.GroupMsg;
 import com.github.zer0e.mbot.msg.TempMsg;
+import com.github.zer0e.mbot.plugins.base.FriendPlugin;
+import com.github.zer0e.mbot.plugins.base.GroupPlugin;
+import com.github.zer0e.mbot.plugins.base.KeywordPlugin;
 
-public class HelpPlugin extends KeywordPlugin implements FriendPlugin,GroupPlugin{
+public class HelpPlugin extends KeywordPlugin implements FriendPlugin, GroupPlugin {
     private Api api;
     public HelpPlugin() {
         init();
     }
 
     @Override
-    void init() {
+    protected void init() {
         this.group_words_set.add("help");
         this.group_ids_set.add("*");
         this.friend_words_set.add("help");

@@ -1,9 +1,9 @@
 package com.github.zer0e.mbot.core;
 
 import com.github.zer0e.mbot.config.Config;
-import com.github.zer0e.mbot.plugins.FriendPlugin;
-import com.github.zer0e.mbot.plugins.GroupPlugin;
-import com.github.zer0e.mbot.plugins.KeywordPlugin;
+import com.github.zer0e.mbot.plugins.base.FriendPlugin;
+import com.github.zer0e.mbot.plugins.base.GroupPlugin;
+import com.github.zer0e.mbot.plugins.base.KeywordPlugin;
 import com.github.zer0e.mbot.utils.ConfigUtil;
 import lombok.Getter;
 import org.slf4j.Logger;

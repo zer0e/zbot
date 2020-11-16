@@ -5,8 +5,11 @@ import com.github.zer0e.mbot.core.Api;
 import com.github.zer0e.mbot.msg.FriendMsg;
 import com.github.zer0e.mbot.msg.GroupMsg;
 import com.github.zer0e.mbot.msg.TempMsg;
+import com.github.zer0e.mbot.plugins.base.FriendPlugin;
+import com.github.zer0e.mbot.plugins.base.GroupPlugin;
+import com.github.zer0e.mbot.plugins.base.KeywordPlugin;
 
-public class TestPlugin extends KeywordPlugin implements GroupPlugin,FriendPlugin{
+public class TestPlugin extends KeywordPlugin implements GroupPlugin, FriendPlugin {
     private Api api;
     public TestPlugin() {
         // 初始化
@@ -14,7 +17,7 @@ public class TestPlugin extends KeywordPlugin implements GroupPlugin,FriendPlugi
     }
 
     @Override
-    public void init() {
+    protected void init() {
         // 初始化关键字与监听的群组
         this.group_words_set.add("test");
         this.group_ids_set.add("*");
