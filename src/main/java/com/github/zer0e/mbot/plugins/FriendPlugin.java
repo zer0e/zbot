@@ -11,9 +11,6 @@ import java.util.Set;
 * 不想处理某种类型的消息就任意返回
 * */
 public interface FriendPlugin {
-    Set<String> friend_words_set = new HashSet<>();
-    Set<String> friend_ids_set = new HashSet<>();
-    void init();
     int callback(FriendMsg msg);
     int callback(TempMsg msg);
 }
