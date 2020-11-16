@@ -61,3 +61,4 @@ public class TestPlugin extends KeywordPlugin implements GroupPlugin{
 - [ ] 前端编写，目前只是简单启动连接线程与处理线程而已，没有前端控制。
 - [ ] api扩展，目前只封装了mirai_http_api的部分api，并且只支持发送文本消息，后续考虑丰富发送类型。
 - [ ] 定时插件的设计编写
+- [ ] 动态加载插件
