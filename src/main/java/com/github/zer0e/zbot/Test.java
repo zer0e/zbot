@@ -1,4 +1,4 @@
-package com.github.zer0e.mbot;
+package com.github.zer0e.zbot;
 
 
 public class Test {

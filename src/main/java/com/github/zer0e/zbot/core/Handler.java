@@ -1,9 +1,9 @@
-package com.github.zer0e.mbot.core;
+package com.github.zer0e.zbot.core;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.github.zer0e.mbot.msg.*;
+import com.github.zer0e.zbot.msg.*;
 import lombok.Data;
 import lombok.NonNull;
 import org.slf4j.Logger;

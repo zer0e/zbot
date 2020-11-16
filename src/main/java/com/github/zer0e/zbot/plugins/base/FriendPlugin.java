@@ -1,10 +1,7 @@
-package com.github.zer0e.mbot.plugins.base;
+package com.github.zer0e.zbot.plugins.base;
 
-import com.github.zer0e.mbot.msg.FriendMsg;
-import com.github.zer0e.mbot.msg.TempMsg;
-
-import java.util.HashSet;
-import java.util.Set;
+import com.github.zer0e.zbot.msg.FriendMsg;
+import com.github.zer0e.zbot.msg.TempMsg;
 
 /*
 * 好友插件必须实现好友私聊和临时会话私聊两种方式

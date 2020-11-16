@@ -1,4 +1,4 @@
-package com.github.zer0e.mbot.core;
+package com.github.zer0e.zbot.core;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;

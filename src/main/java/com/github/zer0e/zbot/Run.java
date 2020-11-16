@@ -1,6 +1,6 @@
-package com.github.zer0e.mbot;
+package com.github.zer0e.zbot;
 
-import com.github.zer0e.mbot.core.Bot;
+import com.github.zer0e.zbot.core.Bot;
 
 public class Run {
     public static void main(String[] args) {

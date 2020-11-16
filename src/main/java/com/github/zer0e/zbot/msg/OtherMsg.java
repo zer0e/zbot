@@ -1,4 +1,4 @@
-package com.github.zer0e.mbot.msg;
+package com.github.zer0e.zbot.msg;
 
 public class OtherMsg extends Msg{
     private String sender_id;

@@ -1,9 +1,9 @@
-package com.github.zer0e.mbot.core;
+package com.github.zer0e.zbot.core;
 
-import com.github.zer0e.mbot.msg.FriendMsg;
-import com.github.zer0e.mbot.msg.GroupMsg;
-import com.github.zer0e.mbot.msg.TempMsg;
-import com.github.zer0e.mbot.utils.ReflectionUtils;
+import com.github.zer0e.zbot.msg.FriendMsg;
+import com.github.zer0e.zbot.msg.GroupMsg;
+import com.github.zer0e.zbot.msg.TempMsg;
+import com.github.zer0e.zbot.utils.ReflectionUtils;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

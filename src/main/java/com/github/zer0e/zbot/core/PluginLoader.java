@@ -1,10 +1,10 @@
-package com.github.zer0e.mbot.core;
+package com.github.zer0e.zbot.core;
 
-import com.github.zer0e.mbot.config.Config;
-import com.github.zer0e.mbot.plugins.base.FriendPlugin;
-import com.github.zer0e.mbot.plugins.base.GroupPlugin;
-import com.github.zer0e.mbot.plugins.base.KeywordPlugin;
-import com.github.zer0e.mbot.utils.ConfigUtil;
+import com.github.zer0e.zbot.config.Config;
+import com.github.zer0e.zbot.plugins.base.FriendPlugin;
+import com.github.zer0e.zbot.plugins.base.GroupPlugin;
+import com.github.zer0e.zbot.plugins.base.KeywordPlugin;
+import com.github.zer0e.zbot.utils.ConfigUtil;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

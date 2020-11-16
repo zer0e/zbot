@@ -1,4 +1,4 @@
-package com.github.zer0e.mbot.utils;
+package com.github.zer0e.zbot.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

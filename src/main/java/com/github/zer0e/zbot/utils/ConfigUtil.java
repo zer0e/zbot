@@ -1,6 +1,6 @@
-package com.github.zer0e.mbot.utils;
+package com.github.zer0e.zbot.utils;
 
-import com.github.zer0e.mbot.config.Config;
+import com.github.zer0e.zbot.config.Config;
 import org.yaml.snakeyaml.Yaml;
 
 

@@ -1,6 +1,4 @@
-package com.github.zer0e.mbot.plugins.base;
-
-import com.github.zer0e.mbot.plugins.base.BasePlugin;
+package com.github.zer0e.zbot.plugins.base;
 
 import java.util.HashSet;
 import java.util.Set;

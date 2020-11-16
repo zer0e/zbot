@@ -1,14 +1,10 @@
-package com.github.zer0e.mbot.utils;
+package com.github.zer0e.zbot.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 public class HttpUtil {
     private static final OkHttpClient client = new OkHttpClient();

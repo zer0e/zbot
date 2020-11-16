@@ -1,10 +1,10 @@
-package com.github.zer0e.mbot.core;
+package com.github.zer0e.zbot.core;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.github.zer0e.mbot.config.Config;
-import com.github.zer0e.mbot.utils.ConfigUtil;
-import com.github.zer0e.mbot.utils.HttpUtil;
+import com.github.zer0e.zbot.config.Config;
+import com.github.zer0e.zbot.utils.ConfigUtil;
+import com.github.zer0e.zbot.utils.HttpUtil;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

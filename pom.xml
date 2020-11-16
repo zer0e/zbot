@@ -62,7 +62,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.github.zer0e.mbot.Run</mainClass>
+                            <mainClass>com.github.zer0e.zbot.Run</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

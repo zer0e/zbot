@@ -1,4 +1,4 @@
-package com.github.zer0e.mbot.config;
+package com.github.zer0e.zbot.config;
 
 public class Mirai_http_api{
     private String host;

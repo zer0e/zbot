@@ -1,13 +1,13 @@
-package com.github.zer0e.mbot.plugins;
+package com.github.zer0e.zbot.plugins;
 
 
-import com.github.zer0e.mbot.core.Api;
-import com.github.zer0e.mbot.msg.FriendMsg;
-import com.github.zer0e.mbot.msg.GroupMsg;
-import com.github.zer0e.mbot.msg.TempMsg;
-import com.github.zer0e.mbot.plugins.base.FriendPlugin;
-import com.github.zer0e.mbot.plugins.base.GroupPlugin;
-import com.github.zer0e.mbot.plugins.base.KeywordPlugin;
+import com.github.zer0e.zbot.core.Api;
+import com.github.zer0e.zbot.msg.FriendMsg;
+import com.github.zer0e.zbot.msg.GroupMsg;
+import com.github.zer0e.zbot.msg.TempMsg;
+import com.github.zer0e.zbot.plugins.base.FriendPlugin;
+import com.github.zer0e.zbot.plugins.base.GroupPlugin;
+import com.github.zer0e.zbot.plugins.base.KeywordPlugin;
 
 public class TestPlugin extends KeywordPlugin implements GroupPlugin, FriendPlugin {
     private Api api;

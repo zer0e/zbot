@@ -1,20 +1,14 @@
-package com.github.zer0e.mbot.core;
+package com.github.zer0e.zbot.core;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.github.zer0e.mbot.utils.ConfigUtil;
-import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.enums.ReadyState;
 import org.java_websocket.handshake.ServerHandshake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Queue;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class Receiver extends WebSocketClient {
     private Queue<JSONObject> exchange;
