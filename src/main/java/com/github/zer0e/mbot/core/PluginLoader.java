@@ -3,6 +3,7 @@ package com.github.zer0e.mbot.core;
 import com.github.zer0e.mbot.config.Config;
 import com.github.zer0e.mbot.plugins.FriendPlugin;
 import com.github.zer0e.mbot.plugins.GroupPlugin;
+import com.github.zer0e.mbot.plugins.KeywordPlugin;
 import com.github.zer0e.mbot.utils.ConfigUtil;
 import lombok.Getter;
 import org.slf4j.Logger;
@@ -41,13 +42,13 @@ public class PluginLoader {
         try {
             Class c = Class.forName(plugin_uri);
             Object o = c.newInstance();
-            if (o instanceof GroupPlugin){
-                if (check_group_plugins((GroupPlugin) o)){
+            if (o instanceof GroupPlugin && o instanceof KeywordPlugin){
+                if (check_group_plugins((KeywordPlugin) o)){
                     group_plugins.add(plugin_name);
                 }
             }
-            if (o instanceof FriendPlugin){
-                if (check_friend_plugin((FriendPlugin) o)){
+            if (o instanceof FriendPlugin && o instanceof KeywordPlugin){
+                if (check_friend_plugin((KeywordPlugin) o)){
                     friend_plugins.add(plugin_name);
                 }
             }
@@ -57,7 +58,7 @@ public class PluginLoader {
         }
     }
 
-    private boolean check_group_plugins(GroupPlugin o){
+    private boolean check_group_plugins(KeywordPlugin o){
         if (o.group_ids_set.isEmpty() || o.group_words_set.isEmpty()){
             logger.error(o.getClass().getName() + " 插件关键词不合法");
             return false;
@@ -67,7 +68,7 @@ public class PluginLoader {
         logger.info("注册群插件: " + o.getClass().getName() + " 插件id：" + uuid);
         return true;
     }
-    private boolean check_friend_plugin(FriendPlugin o){
+    private boolean check_friend_plugin(KeywordPlugin o){
         if (o.friend_words_set.isEmpty() || o.friend_ids_set.isEmpty()){
             logger.error(o.getClass().getName() + " 插件关键词不合法");
             return false;
