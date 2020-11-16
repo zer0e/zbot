@@ -6,7 +6,7 @@ import com.github.zer0e.mbot.msg.FriendMsg;
 import com.github.zer0e.mbot.msg.GroupMsg;
 import com.github.zer0e.mbot.msg.TempMsg;
 
-public class TestPlugin implements GroupPlugin,FriendPlugin{
+public class TestPlugin extends KeywordPlugin implements GroupPlugin,FriendPlugin{
     private Api api;
     public TestPlugin() {
         // 初始化
@@ -29,7 +29,6 @@ public class TestPlugin implements GroupPlugin,FriendPlugin{
 
     @Override
     public int callback(FriendMsg msg) {
-        Api api = new Api();
         boolean is_ok = api.send_plain_msg_to_friend(msg.getSender_id(), "收到test");
         return is_ok ? 1 : 0;
     }
