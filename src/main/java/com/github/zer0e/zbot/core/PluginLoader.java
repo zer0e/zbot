@@ -15,7 +15,7 @@ import java.util.*;
 public class PluginLoader {
     private static final Logger logger = LoggerFactory.getLogger(PluginLoader.class);
 
-    private final String plugin_dir = "com.github.zer0e.mbot.plugins.";
+    private final String plugin_dir = "com.github.zer0e.zbot.plugins.";
     private final Config config = ConfigUtil.getConfig();
     // 从设置中读取的插件列表
     private final Set<String> plugins_from_settings = config.getPlugins();
