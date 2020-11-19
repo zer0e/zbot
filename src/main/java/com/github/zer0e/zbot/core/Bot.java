@@ -1,6 +1,8 @@
 package com.github.zer0e.zbot.core;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.zer0e.zbot.core.handler.MsgHandler;
+import com.github.zer0e.zbot.core.handler.ScheduleHandler;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,15 +13,17 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 @Data
 public class Bot {
-    private Handler handler;
+    private MsgHandler msgHandler;
+    private ScheduleHandler scheduleHandler;
     private PluginLoader plugin_loader;
     private Receiver receiver;
     private Registry registry;
     private LinkedBlockingQueue<JSONObject> queue;
     private Api api;
-    private Thread handler_thread;
+    private Thread msg_handler_thread;
     private Thread receiver_thread;
     private Thread health_thread;
+    private Thread scheduler_thread;
 
     private final static Logger logger = LoggerFactory.getLogger(Bot.class);
 
@@ -37,8 +41,11 @@ public class Bot {
         if (registry == null){
             registry = new Registry(plugin_loader);
         }
-        if (handler == null){
-            handler = new Handler(registry, queue);
+        if (msgHandler == null){
+            msgHandler = new MsgHandler(registry, queue);
+        }
+        if (scheduleHandler == null){
+            scheduleHandler = new ScheduleHandler(registry);
         }
         if (receiver == null){
             String session = api.get_session();
@@ -55,14 +62,14 @@ public class Bot {
     }
 
     public boolean start(){
-        if (handler == null || receiver == null || registry == null){
+        if (msgHandler == null || receiver == null || registry == null || scheduleHandler == null){
             logger.error("启动失败，请先创建bot");
             return false;
         }
         try {
-            handler_thread = new Thread(new Runnable() {
+            msg_handler_thread = new Thread(new Runnable() {
                 public void run() {
-                    handler.start();
+                    msgHandler.start();
                 }
             });
             receiver_thread = new Thread(new Runnable() {
@@ -76,9 +83,16 @@ public class Bot {
                     health();
                 }
             });
+            scheduler_thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    scheduleHandler.start();
+                }
+            });
 
-            handler_thread.start();
+            msg_handler_thread.start();
             receiver_thread.start();
+            scheduler_thread.start();
             health_thread.start();
         }catch (Exception e){
             e.printStackTrace();
@@ -87,16 +101,18 @@ public class Bot {
         return true;
     }
     public boolean stop(){
-        if (handler_thread == null || receiver_thread == null){
+        if (msg_handler_thread == null || receiver_thread == null || scheduler_thread == null){
             logger.info("无需停止");
             return true;
         }
         try {
-            handler.setStop(true);
-            handler_thread.interrupt();
+            msgHandler.setStop(true);
+            msg_handler_thread.interrupt();
             receiver.stop();
-            handler_thread.join();
+            scheduleHandler.stop();
+            msg_handler_thread.join();
             receiver_thread.join();
+            scheduler_thread.join();
         }catch (InterruptedException ignored){
 
         }
@@ -110,7 +126,7 @@ public class Bot {
 
         try {
             while (true){
-                if (receiver_thread == null || handler_thread == null){
+                if (receiver_thread == null || msg_handler_thread == null || scheduler_thread == null){
                     continue;
                 }
                 if (receiver.is_close){
