@@ -4,11 +4,14 @@ import com.github.zer0e.zbot.config.Config;
 import com.github.zer0e.zbot.plugins.base.FriendPlugin;
 import com.github.zer0e.zbot.plugins.base.GroupPlugin;
 import com.github.zer0e.zbot.plugins.base.KeywordPlugin;
+import com.github.zer0e.zbot.plugins.base.SchedulerPlugin;
 import com.github.zer0e.zbot.utils.ConfigUtil;
 import lombok.Getter;
+import org.quartz.CronExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.ParseException;
 import java.util.*;
 
 @Getter
@@ -26,6 +29,9 @@ public class PluginLoader {
     // 插件ID与插件实例对应
     private Map<UUID,Object> group_plugin_obj_map = new HashMap<>();
     private Map<UUID,Object> friend_plugins_obj_map = new HashMap<>();
+
+    // 定时插件Class集合
+    private Set<Object> scheduler_obj = new HashSet<>();
 
     public PluginLoader() {
         load_plugins();
@@ -52,10 +58,28 @@ public class PluginLoader {
                     friend_plugins.add(plugin_name);
                 }
             }
+            if (o instanceof SchedulerPlugin){
+                check_scheduler_plugin((SchedulerPlugin)o);
+            }
         }catch (Exception e){
             e.printStackTrace();
             logger.error("类不存在");
         }
+    }
+    private boolean check_scheduler_plugin(SchedulerPlugin o){
+        for (String schedulerTime : o.schedulerTimeSet){
+            try{
+                CronExpression expression = new CronExpression(schedulerTime);
+                Date date = expression.getNextValidTimeAfter(new Date());
+                logger.debug("下次执行时间: " + date);
+            }catch (ParseException e){
+                return false;
+            }
+        }
+        logger.info("注册定时插件: " + o.getClass().getName());
+        scheduler_obj.add(o);
+        return true;
+
     }
 
     private boolean check_group_plugins(KeywordPlugin o){
