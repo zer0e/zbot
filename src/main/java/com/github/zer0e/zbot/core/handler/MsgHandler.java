@@ -1,8 +1,9 @@
-package com.github.zer0e.zbot.core;
+package com.github.zer0e.zbot.core.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.zer0e.zbot.core.Registry;
 import com.github.zer0e.zbot.msg.*;
 import lombok.Data;
 import lombok.NonNull;
@@ -18,15 +19,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 @Data
-public class Handler {
+public class MsgHandler {
     private Registry registry;
     private LinkedBlockingQueue<JSONObject> exchange;
     private volatile boolean stop = false;
-    private static Logger logger = LoggerFactory.getLogger(Handler.class);
+    private static Logger logger = LoggerFactory.getLogger(MsgHandler.class);
     private static ExecutorService executorService = Executors.newCachedThreadPool();
 
-    // TODO @NonNull没加上
-    public Handler(Registry registry, @NonNull LinkedBlockingQueue<JSONObject> exchange) {
+    public MsgHandler(@NonNull Registry registry, @NonNull LinkedBlockingQueue<JSONObject> exchange) {
         this.registry = registry;
         this.exchange = exchange;
     }
