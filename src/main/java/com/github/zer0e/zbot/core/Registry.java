@@ -32,10 +32,13 @@ public class Registry {
     private Map<UUID, Object> group_plugin_obj_map;
     private Map<UUID, Object> friend_plugin_obj_map;
 
+    private Set<Object> scheduler_obj;
+
     public Registry(PluginLoader plugin_loader) {
         this.plugin_loader = plugin_loader;
         this.group_plugin_obj_map = plugin_loader.getGroup_plugin_obj_map();
         this.friend_plugin_obj_map = plugin_loader.getFriend_plugins_obj_map();
+        this.scheduler_obj = plugin_loader.getScheduler_obj();
         init();
     }
 
