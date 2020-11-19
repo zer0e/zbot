@@ -68,8 +68,7 @@ public class SchedulerTestPlugin extends SchedulerPlugin {
         this.schedulerTimeSet.add("0 0/2 * * * ?");
         api = new Api();
     }
-    // 重写execute方法便可在指定时间执行该任务
-    // 注意是没有参数的execute方法
+    // 重写两个execute方法中的其中一个便可在指定时间执行该任务
     @Override
     public void execute() {
         api.send_plain_msg_to_group("123456","这是一个定时任务");
