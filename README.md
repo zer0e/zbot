@@ -20,7 +20,7 @@
 
 知道以上的几个api就可以开始编写插件了。  
 定义一个关键词**群组**插件，只需在plugins目录下新建一个插件，继承于KeywordPlugin并且实现GroupPlugin接口即可。  
-以下是一个测试插件。在原代码中也提供了两个插件参考。  
+以下是一个测试插件。在源代码中也提供了几个插件参考。  
 ```java
 public class TestPlugin extends KeywordPlugin implements GroupPlugin{
     // 插件需要回复，需要用到api
@@ -53,6 +53,29 @@ public class TestPlugin extends KeywordPlugin implements GroupPlugin{
     }
 }
 ```
+如果你需要一个**定时功能**的插件，请继承于SchedulerPlugin
+```java
+public class SchedulerTestPlugin extends SchedulerPlugin {
+    private Api api;
+    public SchedulerTestPlugin() {
+        init();
+    }
+
+    @Override
+    protected void init() {
+        // 添加一个cron表达式
+        // 支持多个cron表达式
+        this.schedulerTimeSet.add("0 0/2 * * * ?");
+        api = new Api();
+    }
+    // 重写execute方法便可在指定时间执行该任务
+    // 注意是没有参数的execute方法
+    @Override
+    public void execute() {
+        api.send_plain_msg_to_group("123456","这是一个定时任务");
+    }
+}
+```
 随后启动mirai-console并且开启mirai_http_api插件，登录机器人账号。  
 在resources/config.yaml中设置mirai_http_api的各项参数，并添加需要注册的插件类名，导入pom文件后启动Run即可。
 
@@ -60,5 +83,5 @@ public class TestPlugin extends KeywordPlugin implements GroupPlugin{
 ~~咕咕咕~~
 - [ ] 前端编写，目前只是简单启动连接线程与处理线程而已，没有前端控制。
 - [ ] api扩展，目前只封装了mirai_http_api的部分api，并且只支持发送文本消息，后续考虑丰富发送类型。
-- [ ] 定时插件的设计编写
+- [x] 定时插件的设计编写
 - [ ] 动态加载插件
