@@ -3,4 +3,4 @@ mirai_http_api:
   port: 23333
   authKey: INITKEY5SjjHI3m
   bot_qq: 123456
-plugins: [TestPlugin, HelpPlugin]
+plugins: [TestPlugin, HelpPlugin, SchedulerTestPlugin]
