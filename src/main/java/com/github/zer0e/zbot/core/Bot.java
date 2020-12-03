@@ -28,7 +28,7 @@ public class Bot {
     private final static Logger logger = LoggerFactory.getLogger(Bot.class);
 
     public Bot() {
-        api = new Api();
+        api = Api.getApi();
     }
 
     public Bot build(){

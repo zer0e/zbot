@@ -10,7 +10,7 @@ import com.github.zer0e.zbot.plugins.base.GroupPlugin;
 import com.github.zer0e.zbot.plugins.base.KeywordPlugin;
 
 public class HelpPlugin extends KeywordPlugin implements FriendPlugin, GroupPlugin {
-    private Api api;
+    private final Api api = Api.getApi();
     public HelpPlugin() {
         init();
     }
@@ -22,7 +22,6 @@ public class HelpPlugin extends KeywordPlugin implements FriendPlugin, GroupPlug
         this.friend_words_set.add("help");
         this.friend_words_set.add("帮助");
         this.friend_ids_set.add("*");
-        api = new Api();
     }
 
     @Override

@@ -10,7 +10,7 @@ import com.github.zer0e.zbot.plugins.base.GroupPlugin;
 import com.github.zer0e.zbot.plugins.base.KeywordPlugin;
 
 public class TestPlugin extends KeywordPlugin implements GroupPlugin, FriendPlugin {
-    private Api api;
+    private final Api api = Api.getApi();
     public TestPlugin() {
         // 初始化
         init();
@@ -25,9 +25,6 @@ public class TestPlugin extends KeywordPlugin implements GroupPlugin, FriendPlug
         // 初始化私聊关键字和监听人id
         this.friend_words_set.add("test");
         this.friend_ids_set.add("*");
-
-        // 初始化API避免大量申请session
-        api = new Api();
     }
 
     @Override
