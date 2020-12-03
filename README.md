@@ -55,7 +55,7 @@ public class TestPlugin extends KeywordPlugin implements GroupPlugin{
 ```
 如果你需要一个**定时功能**的插件，请继承于SchedulerPlugin
 ```java
-import com.github.zer0e.zbot.core.Api;public class SchedulerTestPlugin extends SchedulerPlugin {
+public class SchedulerTestPlugin extends SchedulerPlugin {
     private final Api api = Api.getApi();
     public SchedulerTestPlugin() {
         init();
