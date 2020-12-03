@@ -24,8 +24,9 @@
 以下是一个测试插件。在源代码中也提供了几个插件参考。  
 ```java
 public class TestPlugin extends KeywordPlugin implements GroupPlugin{
-    // 插件需要回复，需要用到api
-    private Api api;
+    // 插件需要回复，即用到api 
+    // 0.3版本后由于Api改用单例模式所以直接获取即可 无需关心session重复申请与复用
+    private final Api api = Api.getApi();
     private static Logger logger = LoggerFactory.getLogger(TestPlugin.class);
     public TestPlugin() {
         // 在构造函数中初始化关键词
@@ -40,8 +41,6 @@ public class TestPlugin extends KeywordPlugin implements GroupPlugin{
         this.group_words_set.add("test");
         this.group_ids_set.add("*");
 
-        // 初始化API避免大量申请session
-        api = new Api();
     }
     // 实现GroupPlugin中的方法即可在收到该关键词时调用这个函数
     @Override
@@ -56,8 +55,8 @@ public class TestPlugin extends KeywordPlugin implements GroupPlugin{
 ```
 如果你需要一个**定时功能**的插件，请继承于SchedulerPlugin
 ```java
-public class SchedulerTestPlugin extends SchedulerPlugin {
-    private Api api;
+import com.github.zer0e.zbot.core.Api;public class SchedulerTestPlugin extends SchedulerPlugin {
+    private final Api api = Api.getApi();
     public SchedulerTestPlugin() {
         init();
     }
@@ -67,7 +66,6 @@ public class SchedulerTestPlugin extends SchedulerPlugin {
         // 添加一个cron表达式
         // 支持多个cron表达式
         this.schedulerTimeSet.add("0 0/2 * * * ?");
-        api = new Api();
     }
     // 重写两个execute方法中的其中一个便可在指定时间执行该任务
     @Override
