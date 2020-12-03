@@ -96,7 +96,7 @@ public class Api {
     private boolean send_plain_msg_to_friend_or_group(String query_url, String target_id, String text) {
         text = text.replace("\"","\\\"");
         String data = "{" +
-                "\"sessionKey\": \"" + session + "\",\n" +
+                "\"sessionKey\": \"" + get_session() + "\",\n" +
                 "\"target\": " + target_id + ",\n" +
                 "\"messageChain\": [\n" +
                 "        { \"type\": \"Plain\", \"text\": \"" + text + "\"}" +
@@ -113,7 +113,7 @@ public class Api {
     public boolean send_plain_msg_to_tmp_friend(String group_id, String friend_id, String text){
         text = text.replace("\"","\\\"");
         String data = "{" +
-                "\"sessionKey\": \"" + session + "\",\n" +
+                "\"sessionKey\": \"" + get_session() + "\",\n" +
                 "\"qq\": " + friend_id + ",\n" +
                 "\"group\": " + group_id + ",\n" +
                 "\"messageChain\": [\n" +
