@@ -35,11 +35,16 @@ public class Api {
     private static final String get_group_list_url = "/groupList?sessionKey=";
     private static final String get_member_list_url = "/memberList?sessionKey={0}&target={1}";
     private static final Logger logger = LoggerFactory.getLogger(Api.class);
+    private static final Api INSTANCE = new Api();
 
     private String session;
 
-    public Api() {
+    private Api(){
         session = get_session();
+    }
+
+    public static Api getApi(){
+        return INSTANCE;
     }
 
     public String get_session(){
