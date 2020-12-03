@@ -71,7 +71,7 @@ public class PluginLoader {
             try{
                 CronExpression expression = new CronExpression(schedulerTime);
                 Date date = expression.getNextValidTimeAfter(new Date());
-                logger.debug("下次执行时间: " + date);
+//                logger.debug("下次执行时间: " + date);
             }catch (ParseException e){
                 return false;
             }
