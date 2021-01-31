@@ -49,12 +49,14 @@ public class Registry {
             Object o = group_plugin_obj_map.get(uuid);
             Set<String> words = (Set<String>) ReflectionUtils.getField(o, "group_words_set");
             Set<String> groups = (Set<String>) ReflectionUtils.getField(o, "group_ids_set");
-
+            boolean keyword_open = (boolean) ReflectionUtils.getField(o, "keyword_open");
             for (String word : words){
                 Set<UUID> uuids = listen_group_words.getOrDefault(word,new HashSet<>());
                 uuids.add(uuid);
                 listen_group_words.put(word, uuids);
-                group_keywords.add(word);
+                if (keyword_open){
+                    group_keywords.add(word);
+                }
             }
             for (String group : groups){
                 Set<UUID> uuids = listen_group_ids.getOrDefault(group, new HashSet<>());
@@ -68,11 +70,14 @@ public class Registry {
             Object o = friend_plugin_obj_map.get(uuid);
             Set<String> words = (Set<String>) ReflectionUtils.getField(o, "friend_words_set");
             Set<String> groups = (Set<String>) ReflectionUtils.getField(o, "friend_ids_set");
+            boolean keyword_open = (boolean) ReflectionUtils.getField(o, "keyword_open");
             for (String word : words){
                 Set<UUID> uuids = listen_friend_words.getOrDefault(word,new HashSet<>());
                 uuids.add(uuid);
                 listen_friend_words.put(word, uuids);
-                friend_keywords.add(word);
+                if (keyword_open){
+                    friend_keywords.add(word);
+                }
             }
             for (String group : groups){
                 Set<UUID> uuids = listen_group_ids.getOrDefault(group, new HashSet<>());
