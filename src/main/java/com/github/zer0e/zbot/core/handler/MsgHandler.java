@@ -56,10 +56,9 @@ public class MsgHandler {
             return;
         }
         Set<UUID> uuid_groups = null;
+        uuid_groups = this.registry.getListen_group_ids().getOrDefault(msg.getSender_group(),new HashSet<>());
         if (has_any_group){
-            uuid_groups = this.registry.getListen_group_ids().get("*");
-        }else{
-            uuid_groups = this.registry.getListen_group_ids().get(msg.getSender_group());
+            uuid_groups.addAll(this.registry.getListen_group_ids().get("*"));
         }
         Set<UUID> uuid_words = new HashSet<>();
         for (String keyword : this.registry.getListen_group_words().keySet()){
@@ -80,7 +79,7 @@ public class MsgHandler {
                 this.registry.call(msg, uuid);
             }
         }else{
-            logger.debug("监听词与监听者不匹配");
+            logger.debug("监听词与监听群组不匹配");
         }
     }
 
