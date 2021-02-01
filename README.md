@@ -28,10 +28,13 @@ public class TestPlugin extends KeywordPlugin implements GroupPlugin{
     // 0.3版本后由于Api改用单例模式所以直接获取即可 无需关心session重复申请与复用
     private final Api api = Api.getApi();
     private static Logger logger = LoggerFactory.getLogger(TestPlugin.class);
+    /*
+    0.4版本后无需手动初始化
     public TestPlugin() {
         // 在构造函数中初始化关键词
         init();
     }
+    */
 
     @Override
     protected void init() {
@@ -57,9 +60,6 @@ public class TestPlugin extends KeywordPlugin implements GroupPlugin{
 ```java
 public class SchedulerTestPlugin extends SchedulerPlugin {
     private final Api api = Api.getApi();
-    public SchedulerTestPlugin() {
-        init();
-    }
 
     @Override
     protected void init() {
