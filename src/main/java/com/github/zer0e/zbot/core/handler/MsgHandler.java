@@ -51,7 +51,7 @@ public class MsgHandler {
     public void handle_msg(GroupMsg msg){
         logger.debug("处理群消息: " + msg.toString());
         boolean has_any_group = this.registry.getListen_group_ids().containsKey("*");
-        if (!has_any_group && this.registry.getListen_group_ids().containsKey(msg.getSender_group())){
+        if (!has_any_group && !this.registry.getListen_group_ids().containsKey(msg.getSender_group())){
             logger.debug("sender group id : " + msg.getSender_group() + " 不在监听列表中");
             return;
         }
