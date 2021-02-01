@@ -67,6 +67,7 @@ public class PluginLoader {
         }
     }
     private boolean check_scheduler_plugin(SchedulerPlugin o){
+        o.init();
         for (String schedulerTime : o.schedulerTimeSet){
             try{
                 CronExpression expression = new CronExpression(schedulerTime);
@@ -83,6 +84,7 @@ public class PluginLoader {
     }
 
     private boolean check_group_plugins(KeywordPlugin o){
+        o.init();
         if (o.group_ids_set.isEmpty() || o.group_words_set.isEmpty()){
             logger.error(o.getClass().getName() + " 插件关键词不合法");
             return false;
@@ -93,6 +95,7 @@ public class PluginLoader {
         return true;
     }
     private boolean check_friend_plugin(KeywordPlugin o){
+        o.init();
         if (o.friend_words_set.isEmpty() || o.friend_ids_set.isEmpty()){
             logger.error(o.getClass().getName() + " 插件关键词不合法");
             return false;

@@ -11,12 +11,9 @@ import com.github.zer0e.zbot.plugins.base.KeywordPlugin;
 
 public class HelpPlugin extends KeywordPlugin implements FriendPlugin, GroupPlugin {
     private final Api api = Api.getApi();
-    public HelpPlugin() {
-        init();
-    }
 
     @Override
-    protected void init() {
+    public void init() {
         this.group_words_set.add("help");
         this.group_ids_set.add("*");
         this.friend_words_set.add("help");

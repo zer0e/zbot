@@ -11,13 +11,9 @@ import com.github.zer0e.zbot.plugins.base.KeywordPlugin;
 
 public class TestPlugin extends KeywordPlugin implements GroupPlugin, FriendPlugin {
     private final Api api = Api.getApi();
-    public TestPlugin() {
-        // 初始化
-        init();
-    }
 
     @Override
-    protected void init() {
+    public void init() {
         // 初始化关键字与监听的群组
         this.group_words_set.add("test");
         this.group_ids_set.add("*");

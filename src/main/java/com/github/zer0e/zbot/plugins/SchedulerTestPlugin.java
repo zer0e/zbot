@@ -7,12 +7,9 @@ import org.quartz.JobExecutionException;
 
 public class SchedulerTestPlugin extends SchedulerPlugin {
     private final Api api = Api.getApi();
-    public SchedulerTestPlugin() {
-        init();
-    }
 
     @Override
-    protected void init() {
+    public void init() {
         // 一个cron表达式
         this.schedulerTimeSet.add("0 0/2 * * * ?");
     }
