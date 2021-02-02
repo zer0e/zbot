@@ -1,5 +1,5 @@
 # zbot
-一个基于mirai_http_api机器人框架。  
+一个基于mirai_api_http机器人框架。  
 目前支持关键字回复和定时任务。  
 目前处于alpha开发版本，尚不稳定。不定期更新。   
 
