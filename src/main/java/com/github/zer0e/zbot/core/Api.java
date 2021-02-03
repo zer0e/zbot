@@ -10,6 +10,8 @@ import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -161,7 +163,7 @@ public class Api {
         if (img_data == null || img_data.length == 0){
             return null;
         }
-        String filename = FileUtil.bytes_to_tmp_file(img_data,"tmp.jpg");
+        String filename = FileUtil.bytes_to_tmp_file(img_data);
         if (filename == null){
             return null;
         }
