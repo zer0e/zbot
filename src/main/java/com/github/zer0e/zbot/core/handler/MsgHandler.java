@@ -24,6 +24,7 @@ public class MsgHandler {
     private LinkedBlockingQueue<JSONObject> exchange;
     private volatile boolean stop = false;
     private static Logger logger = LoggerFactory.getLogger(MsgHandler.class);
+    // WARNING 注意OOM
     private static ExecutorService executorService = Executors.newCachedThreadPool();
 
     public MsgHandler(@NonNull Registry registry, @NonNull LinkedBlockingQueue<JSONObject> exchange) {
@@ -79,6 +80,8 @@ public class MsgHandler {
                 this.registry.call(msg, uuid);
             }
         }else{
+            logger.debug(String.valueOf(uuid_words));
+            logger.debug(String.valueOf(uuid_groups));
             logger.debug("监听词与监听群组不匹配");
         }
     }
@@ -183,7 +186,7 @@ public class MsgHandler {
         return _msg;
     }
 
-
+    // 由Handle做多线程处理
     public void start(){
         logger.info("handler线程启动");
         while (!stop && !Thread.currentThread().isInterrupted()){
