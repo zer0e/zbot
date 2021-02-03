@@ -1,7 +1,7 @@
 package com.github.zer0e.zbot.core.handler;
 
-import com.github.zer0e.zbot.core.PluginLoader;
 import com.github.zer0e.zbot.core.Registry;
+import com.github.zer0e.zbot.utils.FileUtil;
 import com.github.zer0e.zbot.utils.ReflectionUtils;
 import lombok.NonNull;
 import org.quartz.*;
@@ -9,7 +9,6 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class ScheduleHandler {
@@ -31,7 +30,7 @@ public class ScheduleHandler {
         try {
             scheduler = StdSchedulerFactory.getDefaultScheduler();
 //            Set<JobDetail> jobDetailSet = new HashSet<>();
-            // 创建job
+            // 创建插件的定时job
             for (Object o : registry.getScheduler_obj()){
                 // 多个cron表达式
                 for (String schedulerTime : (Set<String>)ReflectionUtils.getField(o,"schedulerTimeSet")){
@@ -44,6 +43,19 @@ public class ScheduleHandler {
                     scheduler.scheduleJob(jobDetail,cronTrigger);
                 }
             }
+            // TODO 应当独立出来
+            String clean_time = "0 0 3 * * ?";
+            JobDetail CleanJob = JobBuilder.newJob(new Job() {
+                @Override
+                public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+                    logger.info("开始清理临时文件..." + FileUtil.delete_tmp_dir());
+                }
+            }.getClass()).build();
+            CronTrigger cronTrigger = TriggerBuilder.newTrigger()
+                    .startNow().withSchedule(CronScheduleBuilder.cronSchedule(clean_time))
+                    .build();
+            scheduler.scheduleJob(CleanJob,cronTrigger);
+
             scheduler.start();
             stop = false;
         }catch (SchedulerException e){
@@ -54,15 +66,13 @@ public class ScheduleHandler {
     }
 
     public void stop(){
-        if (scheduler == null && stop){
-            logger.info("无需停止");
-            return ;
-        }
-        try {
-            scheduler.shutdown();
-            stop = true;
-        }catch (Exception ignored) {
+        stop = true;
+        if (scheduler != null){
+            try {
+                scheduler.shutdown();
+            }catch (Exception ignored){
 
+            }
         }
     }
 }
