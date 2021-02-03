@@ -1,19 +1,36 @@
 package com.github.zer0e.zbot.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.github.zer0e.zbot.utils.interceptor.RetryInterceptor;
 import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+// 请求异常交由请求的方法来处理
 public class HttpUtil {
-    private static final OkHttpClient client = new OkHttpClient();
+    private static final OkHttpClient client = new OkHttpClient.Builder()
+            .retryOnConnectionFailure(false)
+            .addInterceptor(new RetryInterceptor())
+            .connectTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(20,TimeUnit.SECONDS)
+            .writeTimeout(20,TimeUnit.SECONDS)
+            .connectionPool(new ConnectionPool(32,2,TimeUnit.MINUTES))
+            .build();
+    private static final HttpUtil httpUtil = new HttpUtil();
     private static final Logger logger = LoggerFactory.getLogger(HttpUtil.class);
-    private static int error_time = 0;
-    private static int retry_time = 1;
+
+    public static HttpUtil getInstance(){
+        return httpUtil;
+    }
+
+    private HttpUtil() {
+    }
 
     // 同步get请求
     public static JSONObject get(String url){
@@ -26,14 +43,8 @@ public class HttpUtil {
         try {
             Response response = call.execute();
             obj = JSON.parseObject(response.body().string());
-            error_time = 0;
         }catch (Exception e){
             e.printStackTrace();
-            if (error_time < retry_time){
-                logger.info("重试连接中");
-                error_time++;
-                return get(url);
-            }
         }
         return obj;
     }
@@ -48,14 +59,8 @@ public class HttpUtil {
         try {
             Response response = call.execute();
             bytes = response.body().bytes();
-            error_time = 0;
         }catch (Exception e){
             e.printStackTrace();
-            if (error_time < retry_time){
-                logger.info("重试连接中");
-                error_time++;
-                return get_with_bytes(url);
-            }
         }
         return bytes;
     }
@@ -93,7 +98,6 @@ public class HttpUtil {
             }
         }catch (Exception e){
             e.printStackTrace();
-            res = null;
         }
         return res;
     }
@@ -108,21 +112,15 @@ public class HttpUtil {
 
         JSONObject obj = null;
         Call call = client.newCall(request);
+        String res = null;
         try {
             Response response = call.execute();
-            String res = response.body().string();
+            res = response.body().string();
 //            logger.debug(res);
             obj = JSON.parseObject(res);
-            error_time = 0;
         }catch (Exception e){
             e.printStackTrace();
-            if (error_time < retry_time){
-                logger.info("重试连接中");
-                error_time++;
-                return post(url, data);
-            }
         }
-
         return obj;
     }
 
@@ -134,15 +132,9 @@ public class HttpUtil {
         Call call = client.newCall(request);
         try {
             Response response = call.execute();
-            error_time = 0;
             return response.body().string();
         }catch (Exception e){
             e.printStackTrace();
-            if (error_time < retry_time){
-                logger.info("重试连接中");
-                error_time++;
-                return get_with_string(url);
-            }
         }
         return null;
     }
