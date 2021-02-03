@@ -1,12 +1,12 @@
 # zbot
-一个基于mirai_http_api机器人框架。  
+一个基于mirai_api_http机器人框架。  
 目前支持关键字回复和定时任务。  
 目前处于alpha开发版本，尚不稳定。不定期更新。   
 
 # about
 我的本意是编写一个易开发插件的框架，由于console的插件开发上手难度较大，插件的编写得详细阅读源码才可，因此入门成了很大的困难。  
 所以为了让群友都能开发简单的基于回复的插件，因此有了这个项目。  
-为了开发简单，本项目没有依赖mirai而是依赖mirai_http_api插件来编写，所以需要自行启动mirai-console。  
+为了开发简单，本项目没有直接依赖mirai-console而是依赖mirai_api_http插件来编写，所以需要自行启动mirai-console。  
 如果不会构建mirai-console建议使用[miraiOK](https://github.com/LXY1226/MiraiOK)  
 因为是基于关键词进行回复，所以插件编写只需要定义监听的关键词还有监听人或群组，并且定义处理方法即可。开发难度相对较小。
 
@@ -19,6 +19,7 @@
 - 获取群组列表 List<String> get_group_list()
 - 获取某个群组的成员列表 List<String> get_group_member(String group)
 
+具体功能请查看[API源码](https://github.com/zer0e/zbot/blob/main/src/main/java/com/github/zer0e/zbot/core/Api.java)  
 知道以上的几个api就可以开始编写插件了。  
 定义一个关键词**群组**插件，只需在plugins目录下新建一个插件，继承于KeywordPlugin并且实现GroupPlugin接口即可。  
 以下是一个测试插件。在源代码中也提供了几个插件参考。  
@@ -37,7 +38,7 @@ public class TestPlugin extends KeywordPlugin implements GroupPlugin{
     */
 
     @Override
-    protected void init() {
+    public void init() {
         // 如果是群插件只需向group_words_set和group_ids_set添加关键词和监听群
         // 初始化关键字与监听的群组
         // 监听群组中的*代表所有群组
@@ -62,7 +63,7 @@ public class SchedulerTestPlugin extends SchedulerPlugin {
     private final Api api = Api.getApi();
 
     @Override
-    protected void init() {
+    public void init() {
         // 添加一个cron表达式
         // 支持多个cron表达式
         this.schedulerTimeSet.add("0 0/2 * * * ?");
@@ -74,12 +75,12 @@ public class SchedulerTestPlugin extends SchedulerPlugin {
     }
 }
 ```
-随后启动mirai-console并且开启mirai_http_api插件，登录机器人账号。  
-在resources/config.yaml中设置mirai_http_api的各项参数，并添加需要注册的插件类名，导入pom文件后启动Run即可。
+随后启动mirai-console并且开启mirai_api_http插件，登录机器人账号。  
+在resources/config.yaml中设置mirai_api_http的各项参数，并添加需要注册的插件类名，导入pom文件后启动Run即可。
 
 # TODO
 ~~咕咕咕~~
 - [ ] 前端编写，目前只是简单启动连接线程与处理线程而已，没有前端控制。
-- [ ] api扩展，目前只封装了mirai_http_api的部分api，并且只支持发送文本消息，后续考虑丰富发送类型。
+- [ ] api扩展，目前只封装了mirai_api_http的部分api，并且只支持发送文本及图片消息，后续考虑丰富发送类型。
 - [x] 定时插件的设计编写
 - [ ] 动态加载插件
