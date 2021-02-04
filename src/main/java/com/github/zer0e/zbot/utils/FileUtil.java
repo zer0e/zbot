@@ -66,7 +66,7 @@ public class FileUtil {
     }
 
     public static String get_os(){
-        return System.getProperty("os.name");
+        return System.getProperty("os.name").toLowerCase();
     }
 
 
