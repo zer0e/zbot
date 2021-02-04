@@ -43,19 +43,6 @@ public class ScheduleHandler {
                     scheduler.scheduleJob(jobDetail,cronTrigger);
                 }
             }
-            // TODO 应当独立出来
-            String clean_time = "0 0 3 * * ?";
-            JobDetail CleanJob = JobBuilder.newJob(new Job() {
-                @Override
-                public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-                    logger.info("开始清理临时文件..." + FileUtil.delete_tmp_dir());
-                }
-            }.getClass()).build();
-            CronTrigger cronTrigger = TriggerBuilder.newTrigger()
-                    .startNow().withSchedule(CronScheduleBuilder.cronSchedule(clean_time))
-                    .build();
-            scheduler.scheduleJob(CleanJob,cronTrigger);
-
             scheduler.start();
             stop = false;
         }catch (SchedulerException e){
