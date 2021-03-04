@@ -84,3 +84,4 @@ public class SchedulerTestPlugin extends SchedulerPlugin {
 - [ ] api扩展，目前只封装了mirai_api_http的部分api，并且只支持发送文本及图片消息，后续考虑丰富发送类型。
 - [x] 定时插件的设计编写
 - [ ] 动态加载插件
+- [ ] 插件与配置外置
