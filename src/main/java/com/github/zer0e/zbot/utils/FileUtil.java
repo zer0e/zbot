@@ -6,10 +6,16 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class FileUtil {
     private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
+    public static final String TMP_DIR = "tmp";
+    public static final String CONFIG_FILE_NAME = "config.yaml";
+    public static final String CONFIG_DIR = "config";
+    public static final String PLUGIN_DIR = "plugin";
     public static String bytes_to_tmp_file(byte[] bytes){
         String filename = UUID.randomUUID().toString();
         return bytes_to_tmp_file(bytes, filename);
@@ -69,16 +75,81 @@ public class FileUtil {
         return System.getProperty("os.name").toLowerCase();
     }
 
-
+    /**
+     * @Author zer0e
+     * @Description 返回临时文件夹的绝对路径，下同
+     * @Date 2021-03-07 21:23
+     * @Param
+     * @Return java.lang.String
+     * @Throws
+     **/
     public static String get_tmp_dir(){
         String os = get_os();
         String project_dir = get_project_dir();
         StringBuilder tmp_dir = new StringBuilder();
         if (os.contains("windows")){
-            tmp_dir.append("\\tmp\\");
+            tmp_dir.append("\\" + TMP_DIR + "\\");
         }else {
-            tmp_dir.append("/tmp/");
+            tmp_dir.append("/" + TMP_DIR + "/");
         }
         return project_dir + tmp_dir;
+    }
+
+    public static String get_config_dir(){
+        String os = get_os();
+        String project_dir = get_project_dir();
+        StringBuilder config_dir = new StringBuilder();
+        if (os.contains("windows")){
+            config_dir.append("\\" + CONFIG_DIR + "\\");
+        }else {
+            config_dir.append("/"+ CONFIG_DIR + "/");
+        }
+        return project_dir + config_dir;
+    }
+
+    public static String get_plugin_dir(){
+        String os = get_os();
+        String project_dir = get_project_dir();
+        StringBuilder plugin_dir = new StringBuilder();
+        if (os.contains("windows")){
+            plugin_dir.append("\\"+ PLUGIN_DIR + "\\");
+        }else {
+            plugin_dir.append("/"+ PLUGIN_DIR + "/");
+        }
+        return project_dir + plugin_dir;
+    }
+
+    /**
+     * @Author zer0e
+     * @Description 创建bot所需的文件夹，bot初始化时调用
+     * @Date 2021-03-07 21:22
+     * @Param
+     * @Return boolean
+     * @Throws
+     **/
+    public static void create_base_dir(){
+        String tmp_dir = get_tmp_dir();
+        String config_dir = get_config_dir();
+        String plugin_dir = get_plugin_dir();
+        List<String> dirs = new ArrayList<>();
+        dirs.add(tmp_dir);
+        dirs.add(config_dir);
+        dirs.add(plugin_dir);
+        for (String dir : dirs){
+            File file = new File(dir);
+            if (!file.exists()){
+                if (!file.mkdirs()){
+                    logger.error("创建文件夹：" + dir + " 时失败");
+                }else{
+                    logger.info("创建文件夹："+ dir);
+                }
+            }
+        }
+    }
+
+    public static boolean exists_config_file(){
+        String config_file_path = get_config_dir() + "/" + CONFIG_FILE_NAME;
+        File file = new File(config_file_path);
+        return file.exists();
     }
 }
