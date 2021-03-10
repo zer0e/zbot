@@ -31,7 +31,7 @@ public class TestPlugin extends KeywordPlugin implements GroupPlugin, FriendPlug
 
     @Override
     public int callback(TempMsg msg) {
-        boolean is_ok = api.send_plain_msg_to_tmp_friend(msg.getSender_group_id(),msg.getSender_id(), "收到test");
+        boolean is_ok = api.send_plain_msg_to_tmp_friend(msg.getSender_group(),msg.getSender_id(), "收到test");
         return is_ok ? 1 : 0;
     }
 
