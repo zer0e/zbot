@@ -8,17 +8,22 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 
-
+/**
+ * @Author zer0e
+ * @Description
+ * @Date 2021-03-07 22:41
+ **/
 public class ConfigUtil {
     private static final Logger logger = LoggerFactory.getLogger(ConfigUtil.class);
+    // FileUtil保证路径存在
     private static final String config_path = FileUtil.get_config_dir() + "/" + FileUtil.CONFIG_FILE_NAME;
     private static Config config;
     public static Config loadConfig(){
         Yaml yaml = new Yaml();
         try {
-            return yaml.loadAs(new FileInputStream(config_path), Config.class);
+            config =  yaml.loadAs(new FileInputStream(config_path), Config.class);
         }catch (IOException e) {
-            logger.error("配置文件不存在，将自动生成或关闭程序手动生成！");
+            logger.error("配置文件错误或不存在，将自动生成或关闭程序手动生成！");
             config = new Config();
             auto_generate_config_file(config);
         }
@@ -29,7 +34,7 @@ public class ConfigUtil {
         if (config != null)
             return config;
         else{
-            config = loadConfig();
+            loadConfig();
         }
         return config;
     }
