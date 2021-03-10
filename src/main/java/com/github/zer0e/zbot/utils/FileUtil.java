@@ -75,48 +75,42 @@ public class FileUtil {
         return System.getProperty("os.name").toLowerCase();
     }
 
+
+
+    public static String get_dir(String dir_name) {
+        String os = get_os();
+        String project_dir = get_project_dir();
+        StringBuilder dir = new StringBuilder();
+        if (os.contains("windows")){
+            dir.append("\\" + dir_name + "\\");
+        }else {
+            dir.append("/" + dir_name + "/");
+        }
+        // 自动创建文件夹
+        File file = new File(project_dir + dir);
+        if (!file.exists()){
+            file.mkdirs();
+        }
+        return project_dir + dir;
+    }
     /**
      * @Author zer0e
-     * @Description 返回临时文件夹的绝对路径，下同
+     * @Description 返回临时文件夹的绝对路径，如不存在文件夹则会创建，下同
      * @Date 2021-03-07 21:23
      * @Param
      * @Return java.lang.String
      * @Throws
      **/
     public static String get_tmp_dir(){
-        String os = get_os();
-        String project_dir = get_project_dir();
-        StringBuilder tmp_dir = new StringBuilder();
-        if (os.contains("windows")){
-            tmp_dir.append("\\" + TMP_DIR + "\\");
-        }else {
-            tmp_dir.append("/" + TMP_DIR + "/");
-        }
-        return project_dir + tmp_dir;
+        return get_dir(TMP_DIR);
     }
 
     public static String get_config_dir(){
-        String os = get_os();
-        String project_dir = get_project_dir();
-        StringBuilder config_dir = new StringBuilder();
-        if (os.contains("windows")){
-            config_dir.append("\\" + CONFIG_DIR + "\\");
-        }else {
-            config_dir.append("/"+ CONFIG_DIR + "/");
-        }
-        return project_dir + config_dir;
+        return get_dir(CONFIG_DIR);
     }
 
     public static String get_plugin_dir(){
-        String os = get_os();
-        String project_dir = get_project_dir();
-        StringBuilder plugin_dir = new StringBuilder();
-        if (os.contains("windows")){
-            plugin_dir.append("\\"+ PLUGIN_DIR + "\\");
-        }else {
-            plugin_dir.append("/"+ PLUGIN_DIR + "/");
-        }
-        return project_dir + plugin_dir;
+        return get_dir(PLUGIN_DIR);
     }
 
     /**
