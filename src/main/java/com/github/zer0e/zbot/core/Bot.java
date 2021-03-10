@@ -3,6 +3,8 @@ package com.github.zer0e.zbot.core;
 import com.alibaba.fastjson.JSONObject;
 import com.github.zer0e.zbot.core.handler.MsgHandler;
 import com.github.zer0e.zbot.core.handler.ScheduleHandler;
+import com.github.zer0e.zbot.utils.ConfigUtil;
+import com.github.zer0e.zbot.utils.FileUtil;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,11 @@ public class Bot {
 
     public Bot() {
         api = Api.getApi();
+        // 以下功能做保留
+        // 初始化配置及插件文件夹
+        // FileUtil.create_base_dir();
+        // 直接触发configUtil的加载配置文件功能，发生错误由configUtil重新生成
+        // ConfigUtil.loadConfig();
     }
 
     public Bot build(){
@@ -123,7 +130,6 @@ public class Bot {
     // 负责当receiver退出时，将所有线程结束
     public void health(){
         logger.info("健康线程启动");
-
         try {
             while (true){
                 if (receiver_thread == null || msg_handler_thread == null || scheduler_thread == null){
