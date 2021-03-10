@@ -6,19 +6,25 @@ import com.github.zer0e.zbot.plugins.base.GroupPlugin;
 import com.github.zer0e.zbot.plugins.base.KeywordPlugin;
 import com.github.zer0e.zbot.plugins.base.SchedulerPlugin;
 import com.github.zer0e.zbot.utils.ConfigUtil;
+import com.github.zer0e.zbot.utils.FileUtil;
 import lombok.Getter;
 import org.quartz.CronExpression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.text.ParseException;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 @Getter
 public class PluginLoader {
     private static final Logger logger = LoggerFactory.getLogger(PluginLoader.class);
 
-    private final String plugin_dir = "com.github.zer0e.zbot.plugins.";
+//    private final String plugin_dir = "com.github.zer0e.zbot.plugins.";
+    private final String plugin_dir = FileUtil.get_plugin_dir();
     private final Config config = ConfigUtil.getConfig();
     // 从设置中读取的插件列表
     private final Set<String> plugins_from_settings = config.getPlugins();
@@ -30,7 +36,7 @@ public class PluginLoader {
     private Map<UUID,Object> group_plugin_obj_map = new HashMap<>();
     private Map<UUID,Object> friend_plugins_obj_map = new HashMap<>();
 
-    // 定时插件Class集合
+    // 定时插件Class实例集合
     private Set<Object> scheduler_obj = new HashSet<>();
 
     public PluginLoader() {
@@ -39,8 +45,46 @@ public class PluginLoader {
 
     public void load_plugins(){
         for (String s : this.plugins_from_settings){
-            check_plugins(s);
+//            check_plugins(s);
+            check_plugins_from_jar(s);
         }
+    }
+
+    private void check_plugins_from_jar(String plugin_name){
+        String plugin_url = this.plugin_dir + plugin_name + ".jar";
+        try{
+            URL url = new URL("file:" + plugin_url);
+            ClassLoader classLoader = new URLClassLoader(new URL[] {url});
+            JarFile jar = new JarFile(plugin_url);
+            Enumeration<JarEntry> jar_files = jar.entries();
+            while (jar_files.hasMoreElements()) {
+                JarEntry entry = jar_files.nextElement();
+                // 本意是只加载插件类，不加载其他jar中的其他类
+                // 但这里判断不够全面，会有安全问题，暂时未解决
+                if (entry.getName().endsWith(".class") && entry.getName().contains(plugin_name)){
+                    String className = entry.getName().substring(0, entry.getName().length() - 6).replace("/", ".");
+                    Class<?> clazz = classLoader.loadClass(className);
+                    Object o = clazz.newInstance();
+                    if (o instanceof GroupPlugin && o instanceof KeywordPlugin){
+                        if (check_group_plugins((KeywordPlugin) o)){
+                            group_plugins.add(plugin_name);
+                        }
+                    }
+                    if (o instanceof FriendPlugin && o instanceof KeywordPlugin){
+                        if (check_friend_plugin((KeywordPlugin) o)){
+                            friend_plugins.add(plugin_name);
+                        }
+                    }
+                    if (o instanceof SchedulerPlugin){
+                        check_scheduler_plugin((SchedulerPlugin)o);
+                    }
+                }
+            }
+        }catch (Exception e){
+            logger.error("从外部加载插件失败");
+            logger.error(e.getMessage());
+        }
+
     }
 
     private void check_plugins(String plugin_name){
