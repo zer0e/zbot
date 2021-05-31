@@ -69,7 +69,7 @@ public class Registry {
         for (UUID uuid : friend_plugin_obj_map.keySet()){
             Object o = friend_plugin_obj_map.get(uuid);
             Set<String> words = (Set<String>) ReflectionUtils.getField(o, "friend_words_set");
-            Set<String> groups = (Set<String>) ReflectionUtils.getField(o, "friend_ids_set");
+            Set<String> friends = (Set<String>) ReflectionUtils.getField(o, "friend_ids_set");
             boolean keyword_open = (boolean) ReflectionUtils.getField(o, "keyword_open");
             for (String word : words){
                 Set<UUID> uuids = listen_friend_words.getOrDefault(word,new HashSet<>());
@@ -79,10 +79,10 @@ public class Registry {
                     friend_keywords.add(word);
                 }
             }
-            for (String group : groups){
-                Set<UUID> uuids = listen_group_ids.getOrDefault(group, new HashSet<>());
+            for (String friend : friends){
+                Set<UUID> uuids = listen_friend_ids.getOrDefault(friend, new HashSet<>());
                 uuids.add(uuid);
-                listen_friend_ids.put(group, uuids);
+                listen_friend_ids.put(friend, uuids);
             }
         }
     }

@@ -108,7 +108,7 @@ public class MsgHandler {
     private Set<UUID> getResultUuids(String sender_id, String text){
         Set<UUID> result = new HashSet<>();
         boolean has_any_friend = this.registry.getListen_friend_ids().containsKey("*");
-        if (!has_any_friend && this.registry.getListen_group_ids().containsKey(sender_id)){
+        if (!has_any_friend && !this.registry.getListen_friend_ids().containsKey(sender_id)){
             logger.debug("sender id : " + sender_id + " 不在监听列表中");
             return result;
         }
