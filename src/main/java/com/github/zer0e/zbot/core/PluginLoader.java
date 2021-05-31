@@ -1,10 +1,7 @@
 package com.github.zer0e.zbot.core;
 
 import com.github.zer0e.zbot.config.Config;
-import com.github.zer0e.zbot.plugins.base.FriendPlugin;
-import com.github.zer0e.zbot.plugins.base.GroupPlugin;
-import com.github.zer0e.zbot.plugins.base.KeywordPlugin;
-import com.github.zer0e.zbot.plugins.base.SchedulerPlugin;
+import com.github.zer0e.zbot.plugins.base.*;
 import com.github.zer0e.zbot.utils.ConfigUtil;
 import com.github.zer0e.zbot.utils.FileUtil;
 import lombok.Getter;
@@ -61,7 +58,7 @@ public class PluginLoader {
                 JarEntry entry = jar_files.nextElement();
                 // 本意是只加载插件类，不加载其他jar中的其他类
                 // 但这里判断不够全面，会有安全问题，暂时未解决
-                if (entry.getName().endsWith(".class") && entry.getName().contains(plugin_name)){
+                if (entry.getName().equals(plugin_name + ".class")){
                     String className = entry.getName().substring(0, entry.getName().length() - 6).replace("/", ".");
                     Class<?> clazz = classLoader.loadClass(className);
                     Object o = clazz.newInstance();
@@ -81,6 +78,7 @@ public class PluginLoader {
                 }
             }
         }catch (Exception e){
+            e.printStackTrace();
             logger.error("从外部加载插件失败");
             logger.error(e.getMessage());
         }
@@ -112,7 +110,7 @@ public class PluginLoader {
     }
     private boolean check_scheduler_plugin(SchedulerPlugin o){
         o.init();
-        for (String schedulerTime : o.schedulerTimeSet){
+        for (String schedulerTime : ((KeywordPlugin)o).schedulerTimeSet){
             try{
                 CronExpression expression = new CronExpression(schedulerTime);
                 Date date = expression.getNextValidTimeAfter(new Date());
@@ -135,7 +133,8 @@ public class PluginLoader {
         }
         UUID uuid = UUID.randomUUID();
         group_plugin_obj_map.put(uuid, o);
-        logger.info("注册群插件: " + o.getClass().getName() + " 插件id：" + uuid);
+        logger.info("注册群插件: " + o.getClass().getName() + " 插件id：" + uuid + " 关键词：" + o.group_words_set +
+                " 监听对象：" + o.group_ids_set);
         return true;
     }
     private boolean check_friend_plugin(KeywordPlugin o){
@@ -146,7 +145,8 @@ public class PluginLoader {
         }
         UUID uuid = UUID.randomUUID();
         friend_plugins_obj_map.put(uuid, o);
-        logger.info("注册好友插件: " + o.getClass().getName() + " 插件id：" + uuid);
+        logger.info("注册好友插件: " + o.getClass().getName() + " 插件id：" + uuid + " 关键词：" + o.friend_words_set +
+                " 监听对象：" + o.friend_ids_set);
         return true;
     }
 
