@@ -134,10 +134,15 @@ public class Api {
         }
     }
     public boolean send_img(String target_id, String img_url, String type){
+        String api_url = null;
         switch (type){
             case "group":
+                img_url = upload_img(img_url, type);
+                api_url = send_group_msg_url;
+                break;
             case "friend":
                 img_url = upload_img(img_url, type);
+                api_url = send_friend_msg_url;
                 break;
             default:
                 return false;
@@ -148,7 +153,7 @@ public class Api {
                 "\"messageChain\": [\n" +
                 "        { \"type\": \"Image\", \"url\": \"" + img_url + "\"}" +
                 "]}";
-        String url = base_url + send_group_msg_url;
+        String url = base_url + api_url;
         JSONObject res = HttpUtil.post(url, data);
         if (res != null && (int)res.get("code") == 0){
             return true;
