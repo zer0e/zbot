@@ -6,7 +6,7 @@
 
     <groupId>com.github.zer0e</groupId>
     <artifactId>zbot</artifactId>
-    <version>0.5</version>
+    <version>0.6</version>
 
     <dependencies>
         <dependency>
