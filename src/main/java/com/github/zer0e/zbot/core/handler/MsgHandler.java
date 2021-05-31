@@ -113,10 +113,9 @@ public class MsgHandler {
             return result;
         }
         Set<UUID> uuid_friends = null;
+        uuid_friends = this.registry.getListen_friend_ids().getOrDefault(sender_id,new HashSet<>());
         if (has_any_friend){
-            uuid_friends = this.registry.getListen_friend_ids().get("*");
-        }else{
-            uuid_friends = this.registry.getListen_friend_ids().get(sender_id);
+            uuid_friends.addAll(this.registry.getListen_friend_ids().get("*"));
         }
         Set<UUID> uuid_words = new HashSet<>();
         for (String keyword : this.registry.getListen_friend_words().keySet()){
