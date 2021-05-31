@@ -17,3 +17,4 @@ Api修改为单例模式，更换Api的获取方式
 ## 2021.5.31 版本0.6
 修改定时插件的创建方式，现在可以同时使用定时插件与关键词插件。详见:  
 `src/main/java/com/github/zer0e/zbot/plugins/KeywordAndSchedulerTestPlugin.java`  
+修复了好友插件可能无法监听关键词的bug  
