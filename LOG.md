@@ -15,4 +15,5 @@ Api修改为单例模式，更换Api的获取方式
 修复了几处不知道有没有修复的bug。  
 
 ## 2021.5.31 版本0.6
-修改定时插件的创建方式，现在可以同时使用定时插件与关键词插件。  
+修改定时插件的创建方式，现在可以同时使用定时插件与关键词插件。详见:  
+`src/main/java/com/github/zer0e/zbot/plugins/KeywordAndSchedulerTestPlugin.java`  
