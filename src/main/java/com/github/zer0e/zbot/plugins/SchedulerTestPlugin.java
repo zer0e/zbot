@@ -1,11 +1,12 @@
 package com.github.zer0e.zbot.plugins;
 
 import com.github.zer0e.zbot.core.Api;
+import com.github.zer0e.zbot.plugins.base.KeywordPlugin;
 import com.github.zer0e.zbot.plugins.base.SchedulerPlugin;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-public class SchedulerTestPlugin implements SchedulerPlugin {
+public class SchedulerTestPlugin extends KeywordPlugin implements SchedulerPlugin {
     private final Api api = Api.getApi();
 
     @Override
