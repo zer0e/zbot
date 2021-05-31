@@ -5,7 +5,7 @@ import com.github.zer0e.zbot.plugins.base.SchedulerPlugin;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-public class SchedulerTestPlugin extends SchedulerPlugin {
+public class SchedulerTestPlugin implements SchedulerPlugin {
     private final Api api = Api.getApi();
 
     @Override
