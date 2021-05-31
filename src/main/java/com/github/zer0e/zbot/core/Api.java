@@ -133,15 +133,18 @@ public class Api {
             return false;
         }
     }
-
-    /*
-    从图片地址上传至QQ服务器，然后发送
-     */
-    public boolean send_img_to_group(String group_id, String img_url){
-        img_url = upload_img(img_url,"group");
+    public boolean send_img(String target_id, String img_url, String type){
+        switch (type){
+            case "group":
+            case "friend":
+                img_url = upload_img(img_url, type);
+                break;
+            default:
+                return false;
+        }
         String data = "{" +
                 "\"sessionKey\": \"" + get_session() + "\",\n" +
-                "\"target\": " + group_id + ",\n" +
+                "\"target\": " + target_id + ",\n" +
                 "\"messageChain\": [\n" +
                 "        { \"type\": \"Image\", \"url\": \"" + img_url + "\"}" +
                 "]}";
@@ -151,6 +154,16 @@ public class Api {
             return true;
         }
         return false;
+    }
+    /*
+    从图片地址上传至QQ服务器，然后发送
+     */
+    public boolean send_img_to_group(String group_id, String img_url){
+        return send_img(group_id, img_url, "group");
+    }
+    // 发送图片给好友与群组是一样的API
+    public boolean send_img_to_friend(String target_id, String img_url){
+        return send_img(target_id,img_url, "friend");
     }
 
     /*
